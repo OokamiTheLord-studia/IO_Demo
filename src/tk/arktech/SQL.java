@@ -105,7 +105,7 @@ public class SQL {
 
             statement.addBatch(
                     "INSERT INTO Users(PESEL, Imie, Nazwisko, Mail, Login, Haslo, Sol, Telefon, Pozwolenia, CzyUzytkownikBroni, Grupa)\n" +
-                            "VALUES('" + pesel + "','" + imie + "','" + nazwisko + "','" + mail + "','" + login + "','" + saltEnc + "','" + telefon + "'," + pozwolenia + "," + boolval + "," + idGrupy + ");"
+                            "VALUES('" + pesel + "','" + imie + "','" + nazwisko + "','" + mail + "','" + login + "','" + pass + "','" + saltEnc + "','" + telefon + "'," + pozwolenia + "," + boolval + "," + idGrupy + ");"
             );
 
             statement.executeBatch();
@@ -168,6 +168,7 @@ public class SQL {
 
 
     }
+
 
 
 
