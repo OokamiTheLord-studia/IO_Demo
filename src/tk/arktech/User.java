@@ -2,7 +2,7 @@ package tk.arktech;
 
 public class User
 {
-  private long ID;
+  private String ID;
 //  private UserType typ;
   private String imie;
   private String nazwisko;
@@ -13,19 +13,19 @@ public class User
   {
     return imie;
   }
-  public void setImie(String imie)
-  {
-    this.imie = imie;
-  }
+//  public void setImie(String imie)
+//  {
+//    this.imie = imie;
+//  }
 
   public String getNazwisko()
   {
     return nazwisko;
   }
-  public void setNazwisko(String nazwisko)
-  {
-    this.nazwisko = nazwisko;
-  }
+//  public void setNazwisko(String nazwisko)
+//  {
+//    this.nazwisko = nazwisko;
+//  }
 
   /*private String getHaslo()
   {
@@ -36,7 +36,7 @@ public class User
     this.haslo = haslo;
   }*/
 
-  public long getID()
+  public String getID()
   {
     return ID;
   }
@@ -113,9 +113,9 @@ public class User
     }
   }*/
 
-  public User(/*UserType typ,*/ String imie, String nazwisko/*, String haslo*/)
+  public User(/*UserType typ,*/ String pesel, String imie, String nazwisko/*, String haslo*/)
   {
-    //TODO : generowanie ID
+    this.ID = pesel;
 //    this.typ = typ;
     this.imie = imie;
     this.nazwisko = nazwisko;
@@ -124,15 +124,21 @@ public class User
 //    setPermissions();
   }
 
-  public User(UserType typ, long ID)
-  {
-    //TODO : robi Usera z bazy danych o takim ID, wszystko ustawia
-    //czy potrzebne jest UserType, czy wszyscy sa w jednej tabeli?
-  }
+//  public User(UserType typ, long ID)
+//  {
+//    //TODO : robi Usera z bazy danych o takim ID, wszystko ustawia
+//    //czy potrzebne jest UserType, czy wszyscy sa w jednej tabeli?
+//  }
 
 //  public boolean hasPermission(Permission permission)
 //  {
 //    for(Permission p : uprawnienia) if(p.equals(permission)) return true;
 //    return false;
 //  }
+
+    public boolean hasPermission(Permission permission)
+    {
+        var s = SQL.getInstance();
+        return s.hasPermission(this.ID, permission);
+    }
 }

@@ -73,6 +73,10 @@ public class SQL {
                     "INSERT INTO Grupy(Nazwa, Uprawnienia)\n" +
                             "\tVALUES('Administratorzy', 935940);"
             );
+            statement.addBatch(
+                    "INSERT INTO Grupy(Nazwa, Uprawnienia)\n" +
+                            "\tVALUES('Default', 0);"
+            );
             statement.executeBatch();
 
         } catch (SQLException e) {
@@ -116,20 +120,29 @@ public class SQL {
         }
     }
 
-    public void removeUser(int userid)
+    public boolean removeUser(String userid)
     {
         try {
             var s = conn.createStatement();
 
             s.addBatch(
                     "DELETE FROM Users" +
-                            "WHERE (PESEL = '" + userid + "');"
+                            " WHERE (PESEL = '" + userid + "');"
             );
             s.executeBatch();
+
+            var result = s.executeQuery(
+                    "SELECT PESEL FROM Users" +
+                            " WHERE (PESEL = '" + userid + "');"
+            );
+
+            return !result.next();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return false;
 
     }
 
@@ -205,7 +218,15 @@ public class SQL {
             );
             var perm = result.getInt("Pozwolenia");
 
+            result = s.executeQuery(
+                    "SELECT Uprawnienia FROM Grupy\n" +
+                            "WHERE\n" +
+                            "ID = (\n" +
+                            "  SELECT Grupa FROM Users WHERE PESEL = '"+ pesel +"');"
+            );
+            var gperm = result.getInt("Uprawnienia");
 
+            perm = perm|gperm;
 
             return (perm & permission.getId()) > 0;
 
@@ -216,7 +237,7 @@ public class SQL {
         return false;
     }
 
-    public String login(String login, String password)
+    public User login(String login, String password)
     {
 
         try
@@ -236,7 +257,7 @@ public class SQL {
 
             var s = conn.createStatement();
             var result = s.executeQuery(
-                    "SELECT Sol, Haslo, PESEL\n" +
+                    "SELECT Sol, Haslo, PESEL, Imie, Nazwisko\n" +
                             "FROM Users\n" +
                             "WHERE\n" +
                             "Login = '" + login + "';"
@@ -266,7 +287,11 @@ public class SQL {
 
             if(pass.equals(truepass))
             {
-                return result.getString("PESEL");
+//                return result.getString("PESEL");
+                var pesel = result.getString("PESEL");
+                var imie = result.getString("Imie");
+                var nazwisko = result.getString("Nazwisko");
+                return new User(pesel, imie, nazwisko);
             }
             else
             {
