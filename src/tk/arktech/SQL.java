@@ -79,10 +79,39 @@ public class SQL {
             );
             statement.executeBatch();
 
+
+            adduser("00000000000", "Janusz", "Administrator", "janusz@admin.pl", "admin", "admin", "+00000000000", 0, true, getGroupIdByName("Administratorzy"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+    public int getGroupIdByName(String name)
+    {
+        try {
+            var s = conn.createStatement();
+            var result = s.executeQuery(
+                    "SELECT ID FROM Grupy WHERE Nazwa = '" + name + "';"
+            );
+
+            if(result.next())
+            {
+//                result.beforeFirst();
+            }
+            else
+            {
+                return 0;
+            }
+
+            return result.getInt("ID");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
 
     public void adduser(String pesel, String imie, String nazwisko, String mail, String login, String haslo, String telefon, int pozwolenia, boolean pozwolenieNaBron, int idGrupy)
     {
@@ -262,6 +291,17 @@ public class SQL {
                             "WHERE\n" +
                             "Login = '" + login + "';"
             );
+
+//            System.out.println(result.isClosed());
+
+            if (!result.next())
+            {
+                return null;
+            }
+            else
+            {
+//                result.beforeFirst();
+            }
 
             var saltEnc = result.getString("Sol");
 
