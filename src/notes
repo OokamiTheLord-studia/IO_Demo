@@ -1,0 +1,10 @@
+>init
+>    tabela users
+>    tabela grupy
+
+>rejestracja
+>kasowanie
+zmiana hasla
+sprawdzanie pozwolenia na bron
+sprawdzanie uprawnien
+logowanie
