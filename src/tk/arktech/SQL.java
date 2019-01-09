@@ -4,6 +4,7 @@ package tk.arktech;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.File;
+import tk.arktech.Permission;
 import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -183,6 +184,30 @@ public class SQL {
             return result.getBoolean("CzyUzytkownikBroni");
 
 
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public boolean hasPermission(String pesel, Permission permission)
+    {
+        try
+        {
+            var s = conn.createStatement();
+            var result = s.executeQuery(
+                    "SELECT Pozwolenia \n" +
+                            "FROM Users\n" +
+                            "WHERE\n" +
+                            "PESEL = '" + pesel +"';"
+            );
+            var perm = result.getInt("Pozwolenia");
+
+
+
+            return (perm & permission.getId()) > 0;
 
         } catch (SQLException e) {
             e.printStackTrace();

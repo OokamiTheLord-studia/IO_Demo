@@ -1,4 +1,5 @@
 /*
+
 public class WeaponSystem
 {
   static public boolean register(User user,User userRegister)

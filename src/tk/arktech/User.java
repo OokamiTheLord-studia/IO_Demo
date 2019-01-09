@@ -1,3 +1,5 @@
+package tk.arktech;
+
 public class User
 {
   private long ID;
