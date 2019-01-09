@@ -132,6 +132,45 @@ public class SQL {
 
     }
 
+    public void changePwd(String newPassword)
+    {
+        var r = new SecureRandom();
+        var salt = new byte[32];
+        r.nextBytes(salt);
+
+        var sbytes = newPassword.getBytes();
+
+        var bytes = new byte[salt.length + sbytes.length];
+        System.arraycopy(sbytes, 0, bytes, 0, sbytes.length);
+        System.arraycopy(salt, 0, bytes, sbytes.length, salt.length);
+
+        var enc = Base64.getEncoder();
+        String saltEnc = enc.encodeToString(salt);
+
+
+        String pass = DigestUtils.sha1Hex(bytes);
+
+
+        try {
+            var s = conn.createStatement();
+            s.addBatch(
+                    "UPDATE Users\n" +
+                            "SET Haslo = " + pass + ",\n" +
+                            "    Sol = '"+ saltEnc + "'\n" +
+                            "WHERE\n" +
+                            "    PESEL = '123456';"
+            );
+            s.executeBatch();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+    }
+
+
+
     public void close()
     {
         try {
