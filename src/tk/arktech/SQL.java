@@ -216,6 +216,71 @@ public class SQL {
         return false;
     }
 
+    public String login(String login, String password)
+    {
+
+        try
+        {
+            /*var s = conn.createStatement();
+            var result = s.executeQuery(
+                    "SELECT PESEL \n" +
+                            "FROM Users\n" +
+                            "WHERE\n" +
+                            "" + "';"
+            );
+            var perm = result.getInt("Pozwolenia");
+
+
+
+            return (perm & permission.getId()) > 0;*/
+
+            var s = conn.createStatement();
+            var result = s.executeQuery(
+                    "SELECT Sol, Haslo, PESEL\n" +
+                            "FROM Users\n" +
+                            "WHERE\n" +
+                            "Login = '" + login + "';"
+            );
+
+            var saltEnc = result.getString("Sol");
+
+            var dec = Base64.getDecoder();
+            var salt = dec.decode(saltEnc);
+
+            /*result = s.executeQuery(
+                    "SELECT Haslo\n" +
+                            "FROM Users\n" +
+                            "WHERE\n" +
+                            "Login = '" + login + "';"
+            );*/
+
+            var truepass = result.getString("Haslo");
+
+            var sbytes = password.getBytes();
+
+            var bytes = new byte[salt.length + sbytes.length];
+            System.arraycopy(sbytes, 0, bytes, 0, sbytes.length);
+            System.arraycopy(salt, 0, bytes, sbytes.length, salt.length);
+
+            String pass = DigestUtils.sha1Hex(bytes);
+
+            if(pass.equals(truepass))
+            {
+                return result.getString("PESEL");
+            }
+            else
+            {
+                return null;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
+    }
+
 
     public void close()
     {
