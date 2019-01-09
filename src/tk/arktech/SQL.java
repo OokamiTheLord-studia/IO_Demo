@@ -132,7 +132,7 @@ public class SQL {
 
     }
 
-    public void changePwd(String newPassword)
+    public void changePwd(String pesel, String newPassword)
     {
         var r = new SecureRandom();
         var salt = new byte[32];
@@ -158,7 +158,7 @@ public class SQL {
                             "SET Haslo = " + pass + ",\n" +
                             "    Sol = '"+ saltEnc + "'\n" +
                             "WHERE\n" +
-                            "    PESEL = '123456';"
+                            "    PESEL = '"+ pesel +"';"
             );
             s.executeBatch();
         } catch (SQLException e) {
@@ -169,7 +169,27 @@ public class SQL {
 
     }
 
+    public boolean hasWeaponPermission(String pesel)
+    {
+        try {
+            var s = conn.createStatement();
+            var result = s.executeQuery(
+                    "SELECT CzyUzytkownikBroni\n" +
+                            "FROM Users\n" +
+                            "WHERE\n" +
+                            "\tPESEL = '"+ pesel +"';"
+            );
 
+            return result.getBoolean("CzyUzytkownikBroni");
+
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 
 
     public void close()
