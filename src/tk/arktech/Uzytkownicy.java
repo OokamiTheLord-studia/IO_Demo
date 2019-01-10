@@ -76,6 +76,13 @@ public class Uzytkownicy extends JDialog {
                 Demo.main(null);
             }
         });
+        dodajButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO: podawac pesel
+                Dodaj.main(null);
+            }
+        });
     }
 
     private void onOK() {

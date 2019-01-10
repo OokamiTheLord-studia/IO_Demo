@@ -15,6 +15,8 @@ public class mainprogram extends JFrame{
     private JButton eksportButton;
     private JButton grupyButton;
     private JLabel hello;
+    private JButton archiwumButton;
+    private JButton sledzenieButton;
 
     public mainprogram() {
         super("Manager Broni v0.1");
@@ -47,6 +49,18 @@ public class mainprogram extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 Uzytkownicy.main(null);
+            }
+        });
+        archiwumButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Demo.main(null);
+            }
+        });
+        sledzenieButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Demo.main(null);
             }
         });
     }
