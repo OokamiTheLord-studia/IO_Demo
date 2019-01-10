@@ -268,28 +268,32 @@ public class Dodaj extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String s = "";
-                if(!validateInput(peselTextField1)) s = s + "PESEL ";
-                if(!validateInput(imieTextField1)) s = s + "Imie ";
-                if(!validateInput(nazwiskoTextField2)) s = s + "Nazwisko ";
-                if(!validateInput(mailTextField3)) s = s + "Mail ";
-                if(!validateInput(loginTextField4)) s = s + "Login ";
-                if(!validateInput(passwordField1)) s = s + "Haslo ";
-                if(!validateInput(telefonTextField5)) s = s + "Telefon ";
+                if(Main.curuser.hasPermission(Permission.RU)) {
+                    String s = "";
+                    if (!validateInput(peselTextField1)) s = s + "PESEL ";
+                    if (!validateInput(imieTextField1)) s = s + "Imie ";
+                    if (!validateInput(nazwiskoTextField2)) s = s + "Nazwisko ";
+                    if (!validateInput(mailTextField3)) s = s + "Mail ";
+                    if (!validateInput(loginTextField4)) s = s + "Login ";
+                    if (!validateInput(passwordField1)) s = s + "Haslo ";
+                    if (!validateInput(telefonTextField5)) s = s + "Telefon ";
 
-                if(s.equals(""))
-                {
-                    var sql = SQL.getInstance();
+                    if (s.equals("")) {
+                        var sql = SQL.getInstance();
 
-                    String nazwaGrupy = (String)comboBox1.getSelectedItem();
+                        String nazwaGrupy = (String) comboBox1.getSelectedItem();
 
-                    int idGrupy = sql.getGroupIdByName(nazwaGrupy);
+                        int idGrupy = sql.getGroupIdByName(nazwaGrupy);
 
-                    sql.adduser(peselTextField1.getText(), imieTextField1.getText(), nazwiskoTextField2.getText(), mailTextField3.getText(), loginTextField4.getText(), passwordField1.getText(), telefonTextField5.getText(), wyliczPozwolenia(), pozwolenieNaBronCheckBox.isSelected(), idGrupy);
+                        sql.adduser(peselTextField1.getText(), imieTextField1.getText(), nazwiskoTextField2.getText(), mailTextField3.getText(), loginTextField4.getText(), passwordField1.getText(), telefonTextField5.getText(), wyliczPozwolenia(), pozwolenieNaBronCheckBox.isSelected(), idGrupy);
+                        dispose();
+                    } else {
+                        IncorrectField.main(new String[]{s});
+                    }
                 }
                 else
                 {
-                    IncorrectField.main(new String[]{s});
+                    NiewystarczajaceUprawnienia.main(null);
                 }
 
             }

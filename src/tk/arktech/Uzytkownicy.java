@@ -41,7 +41,7 @@ public class Uzytkownicy extends JDialog {
 
         model1 = new javax.swing.table.DefaultTableModel(
                 new String [] {
-                        "Imie", "Nazwisko", "Mail", "Login", "Telefon", "Pozwolenia", "Pozwolenie na bron", "Grupa"
+                        "PESEL", "Imie", "Nazwisko", "Mail", "Login", "Telefon", "Pozwolenia", "Pozwolenie na bron", "Grupa"
                 }
                 ,0
         );
@@ -81,6 +81,26 @@ public class Uzytkownicy extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 //TODO: podawac pesel
                 Dodaj.main(null);
+            }
+        });
+        kasujButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = table1.getSelectedRow();
+                String imie = (String)table1.getValueAt(row, 1);
+                String nazwisko = (String)table1.getValueAt(row, 2);
+                String pesel = (String)table1.getValueAt(row, 0);
+                Kasuj.main(new String[]{imie, nazwisko, pesel});
+            }
+        });
+        zmienHasloButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = table1.getSelectedRow();
+                String imie = (String)table1.getValueAt(row, 1);
+                String nazwisko = (String)table1.getValueAt(row, 2);
+                String pesel = (String)table1.getValueAt(row, 0);
+                ZmienHaslo.main(new String[]{imie, nazwisko, pesel});
             }
         });
     }

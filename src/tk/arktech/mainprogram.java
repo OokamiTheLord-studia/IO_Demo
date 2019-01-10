@@ -63,6 +63,12 @@ public class mainprogram extends JFrame{
                 Demo.main(null);
             }
         });
+        grupyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Demo.main(null);
+            }
+        });
     }
 
     public static void main() {

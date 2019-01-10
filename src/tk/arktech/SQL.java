@@ -199,7 +199,7 @@ public class SQL {
             var s = conn.createStatement();
             s.addBatch(
                     "UPDATE Users\n" +
-                            "SET Haslo = " + pass + ",\n" +
+                            "SET Haslo = '" + pass + "',\n" +
                             "    Sol = '"+ saltEnc + "'\n" +
                             "WHERE\n" +
                             "    PESEL = '"+ pesel +"';"
@@ -364,7 +364,7 @@ public class SQL {
         try {
             var s = conn.createStatement();
             var result = s.executeQuery(
-                    "SELECT Imie, Nazwisko, Mail, Login, Telefon, Pozwolenia, CzyUzytkownikBroni, Nazwa, Uprawnienia\n" +
+                    "SELECT PESEL, Imie, Nazwisko, Mail, Login, Telefon, Pozwolenia, CzyUzytkownikBroni, Nazwa, Uprawnienia\n" +
                             "FROM (\n" +
                             "Users JOIN Grupy ON Users.Grupa = Grupy.ID);"
             );
@@ -383,6 +383,7 @@ public class SQL {
 
 
                 var str = new String[] {
+                        result.getString("PESEL"),
                         result.getString("Imie"),
                         result.getString("Nazwisko"),
                         result.getString("Mail"),

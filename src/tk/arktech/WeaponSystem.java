@@ -33,7 +33,7 @@ public class WeaponSystem
     //return true;
   }
 
-  static public boolean changePassword(User user, String newPassword)
+  static public boolean changePassword(User user, String pesel, String newPassword)
   {
     //trzeba sprawdzic, czy user ma prawo sam zmienic swoje haslo
 //    if(user.getTyp().equals(UserType.Administrator) || user.getTyp().equals(UserType.OrganUprawniony)
@@ -44,7 +44,7 @@ public class WeaponSystem
       if(!user.hasPermission(Permission.RH)) return false;
 
       var sql = SQL.getInstance();
-      sql.changePwd(user.getID(), newPassword);
+      sql.changePwd(pesel, newPassword);
       return true;
 
 
