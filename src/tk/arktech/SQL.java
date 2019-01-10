@@ -364,7 +364,7 @@ public class SQL {
         try {
             var s = conn.createStatement();
             var result = s.executeQuery(
-                    "SELECT Imie, Nazwisko, Mail, Login, Telefon, Pozwolenia, CzyUzytkownikBroni, Nazwa\n" +
+                    "SELECT Imie, Nazwisko, Mail, Login, Telefon, Pozwolenia, CzyUzytkownikBroni, Nazwa, Uprawnienia\n" +
                             "FROM (\n" +
                             "Users JOIN Grupy ON Users.Grupa = Grupy.ID);"
             );
@@ -374,7 +374,7 @@ public class SQL {
                 StringBuilder permisje = new StringBuilder();
                 for(Permission p : Permission.values())
                 {
-                    if((p.getId()|result.getInt("Pozwolenia"))>0)
+                    if((p.getId()&(result.getInt("Pozwolenia")|result.getInt("Uprawnienia")))>0)
                     {
                         permisje.append(p.getName()).append(",");
                     }
