@@ -402,5 +402,30 @@ public class SQL {
 
     }
 
+    public ArrayList<String> getAllGroups()
+    {
+        var array = new ArrayList<String>();
+        try {
+            var s = conn.createStatement();
+            var result = s.executeQuery(
+                    "SELECT Nazwa FROM Grupy;"
+            );
+
+
+            while(result.next())
+            {
+                array.add(result.getString("Nazwa"));
+            }
+
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return array;
+
+    }
+
 
 }

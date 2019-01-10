@@ -10,6 +10,7 @@ public class Main {
          Login.main(null);
 //        Demo.main(null);
 //        Uzytkownicy.main(null);
+//        Dodaj.main(null);
 
 
 
