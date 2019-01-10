@@ -9,6 +9,7 @@ import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Base64;
 
 public class SQL {
@@ -71,7 +72,7 @@ public class SQL {
             );
             statement.addBatch(
                     "INSERT INTO Grupy(Nazwa, Uprawnienia)\n" +
-                            "\tVALUES('Administratorzy', 935940);"
+                            "\tVALUES('Administratorzy', 1048575);"
             );
             statement.addBatch(
                     "INSERT INTO Grupy(Nazwa, Uprawnienia)\n" +
@@ -354,6 +355,51 @@ public class SQL {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<String[]> getAllUsers()
+    {
+        var array = new ArrayList<String[]>();
+
+        try {
+            var s = conn.createStatement();
+            var result = s.executeQuery(
+                    "SELECT Imie, Nazwisko, Mail, Login, Telefon, Pozwolenia, CzyUzytkownikBroni, Nazwa\n" +
+                            "FROM (\n" +
+                            "Users JOIN Grupy ON Users.Grupa = Grupy.ID);"
+            );
+            while(result.next())
+            {
+                String bron = result.getBoolean("CzyUzytkownikBroni") ? "tak" : "nie";
+                StringBuilder permisje = new StringBuilder();
+                for(Permission p : Permission.values())
+                {
+                    if((p.getId()|result.getInt("Pozwolenia"))>0)
+                    {
+                        permisje.append(p.getName()).append(",");
+                    }
+
+                }
+
+
+                var str = new String[] {
+                        result.getString("Imie"),
+                        result.getString("Nazwisko"),
+                        result.getString("Mail"),
+                        result.getString("Login"),
+                        result.getString("Telefon"),
+                        permisje.toString(),
+                        bron,
+                        result.getString("Nazwa")
+                };
+                array.add(str);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return array;
+
     }
 
 

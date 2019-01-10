@@ -7,8 +7,9 @@ import java.awt.event.ActionListener;
 public class Login extends JFrame{
     private JTextField Tlogin;
     private JPanel panel1;
-    private JTextField Thaslo;
+//    private JTextField Thaslo;
     private JButton logujButton;
+    private JPasswordField Thaslo;
 
     public abstract class alistener implements ActionListener
     {
@@ -21,7 +22,7 @@ public class Login extends JFrame{
     }
 
     public Login() {
-        super("Login");
+        super("Login - Manager Broni v0.1");
 
 
         logujButton.addActionListener(new alistener/*ActionListener*/(this) {
@@ -36,7 +37,7 @@ public class Login extends JFrame{
                     frame.dispose();
 
 
-                    //mainprogram.main();
+                    mainprogram.main();
 //                    dispose();
 
 
